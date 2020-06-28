@@ -9,6 +9,7 @@ class App extends React.Component {
     timer: null
   }
 
+
   formatTime(totalSeconds) {
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = Math.floor(totalSeconds - (minutes * 60));
@@ -32,20 +33,28 @@ class App extends React.Component {
 
     this.setState({
       status: 'work',
-      time: 1200, //dlaczego?
+      time: 1200,
       timer: setInterval(() => this.step(), 1000),
     });
 
   };
 
   stopTimer = () => {
+    clearInterval(this.state.timer);
     this.setState({
       status: 'off',
       time: 0,
-      timer: null,
     });
   };
 
+  playBell() {
+    const player = new Audio('./sounds/bell.wav');
+    player.play();
+  };
+
+  closeApp=()=> {
+    window.close();
+  };
 
   render() {
 
@@ -65,7 +74,7 @@ class App extends React.Component {
         </div>}
         {(status === "off") && <button className="btn" onClick={this.startTimer}>Start</button>}
         {(status !== "off") && <button className="btn" onClick={this.stopTimer}>Stop</button>}
-        <button className="btn btn-close">X</button>
+        <button className="btn btn-close" onClick={this.closeApp}>X</button>
       </div>
     )
   }
